@@ -1,103 +1,119 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Animator))]
 public abstract class CharacterBase : MonoBehaviour, IDamageable
 {
-    [Header("Stats")]
-    public float maxHealth = 100f;
-    public int teamId = 0;
+    [Header("Stats")] 
+    [SerializeField] private CharacterData characterData;
+    [SerializeField] private int teamId = 0;
     [SerializeField] private LayerMask enemyLayer;
     
-    [Header("MovementParameters")]
-    public float moveSpeed = 3f;
-    public float detectionRange = 10f;
-    public float rotationSpeed = 700f;
-    public float closeDistanceMultiplier = 5f;
-    public float animationTransitionSpeed = 5f;
+    public bool IsAttacking;
+    public bool IsDead;
 
     [Header("Components")]
-    public Animator animator;
-    public Rigidbody rb;
+    [SerializeField] private Animator animator;
+    public Animator Animator => animator;
+    [SerializeField] private CharacterMovement _characterMovement;
+    [SerializeField] private Collider _collider;
+    
+    [Header("Starting Weapon")]
+    [SerializeField] private WeaponData startingWeapon; // Inspector’dan atanacak
+    public IWeapon currentWeapon;
+    
+    public Transform weaponHolder;
     
     protected CharacterBase targetEnemy;
     protected float currentHealth;
     protected IAttackStrategy attackStrategy;
-
+    
+    private void Awake()
+    {
+        InitializeWeapon();
+    }
+    
     protected virtual void Start()
     {
-        currentHealth = maxHealth;
-        
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+        currentHealth = characterData.MaxHealth;
         
         InitializeAttackStrategy();
     }
+    
+    protected abstract void InitializeAttackStrategy();
+    
+    private void InitializeWeapon()
+    {
+        if (startingWeapon == null)
+        {
+            Debug.LogWarning("Starting weapon is not assigned!");
+            
+            return;
+        }
+
+        GameObject weaponInstance = Instantiate(startingWeapon.WeaponPrefab,weaponHolder);
+        
+        weaponInstance.transform.localRotation = Quaternion.identity;
+        
+        weaponInstance.transform.localPosition = Vector3.zero;
+
+        currentWeapon = weaponInstance.GetComponent<IWeapon>();
+        
+        EquipWeapon(currentWeapon);
+
+    }
+    
+    public void EquipWeapon(IWeapon weapon)
+    {
+        if (weapon == null) return;
+        
+        currentWeapon?.OnUnequip();
+        
+        currentWeapon = weapon;
+        
+        currentWeapon.OnEquip(this);
+    }
+    
+    public void UnequipWeapon()
+    {
+        currentWeapon?.OnUnequip();
+        
+        currentWeapon = null;
+    }
+
 
     protected virtual void Update()
     {
-        if (targetEnemy == null || targetEnemy.currentHealth <= 0)
+        if(IsDead) return;
+        
+        if (targetEnemy == null || targetEnemy.IsDead)
             targetEnemy = FindNearestEnemy();
 
         if (targetEnemy != null)
         {
             float distance = Vector3.Distance(transform.position, targetEnemy.transform.position);
-            FaceTarget(targetEnemy.transform);
+            
+            _characterMovement.FaceTarget(targetEnemy.transform);
 
-            if (distance > attackStrategy.AttackRange)
+            if (distance > currentWeapon.WeaponData.AttackRange)
             {
-                MoveTowards(targetEnemy.transform.position);
+                _characterMovement.MoveTowards(targetEnemy.transform.position, currentWeapon.WeaponData.AttackRange);
             }
             else
             {
-                rb.velocity = Vector3.zero;
-                
-                animator.SetFloat("Speed", 0); 
+                _characterMovement.StopMoving();
                 
                 attackStrategy.TryAttack(targetEnemy);
             }
         }
-    }
-
-    private void MoveTowards(Vector3 destination)
-    {
-        Vector3 dir = (destination - transform.position).normalized;
-        
-        dir.y = 0;
-
-        float distance = Vector3.Distance(transform.position, destination);
-
-        float speedFactor;
-
-        if (distance < attackStrategy.AttackRange * closeDistanceMultiplier)
-        {
-            speedFactor = Mathf.Lerp(1, .5f, Time.deltaTime * animationTransitionSpeed); // 0.5x hız ile 1x hız arası geçiş
-        }
         else
         {
-            speedFactor = 1f;
+            _characterMovement.StopMoving();
         }
-
-        float targetSpeed = moveSpeed * speedFactor;
-        
-        rb.velocity = Vector3.Lerp(rb.velocity, dir * targetSpeed, Time.deltaTime * animationTransitionSpeed);
-
-        Quaternion toRotation = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
-        animator.SetFloat("Speed", rb.velocity.magnitude);
-    }
-
-    private void FaceTarget(Transform target)
-    {
-        Vector3 direction = (target.position - transform.position).normalized;
-        direction.y = 0;
-        if (direction != Vector3.zero)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
     }
 
     private CharacterBase FindNearestEnemy()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, enemyLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position, characterData.DetectionRange, enemyLayer);
         
         CharacterBase nearest = null;
         
@@ -124,8 +140,18 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
 
     protected void Die()
     {
+        IsDead = true;
+
+        _collider.enabled = false;
+        
+        _characterMovement.OnDead();
+        
         animator.SetTrigger("Die");
-        Destroy(gameObject, 2f); // Ölüm animasyonuna zaman tanı
+    }
+
+    public void DestroyCharacter()
+    {
+        Destroy(gameObject);
     }
 
     private bool IsSameTeam(CharacterBase other)
@@ -137,13 +163,28 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     {
         currentHealth -= damage;
         
-        animator.SetTrigger("Hit");
+        Debug.Log(currentHealth);
+
+        if (!IsAttacking)
+        {
+            animator.SetTrigger("Hit");
+        }
 
         if (currentHealth <= 0)
         {
             Die();
         }
     }
-    protected abstract void InitializeAttackStrategy();
+    
+    public void OnAttackAnimationStarted()
+    {
+        IsAttacking = true;
+    }
+    
+    public void OnAttackAnimationEnded()
+    {
+        IsAttacking = false;
+    }
+    
 
 }

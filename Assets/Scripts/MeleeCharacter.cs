@@ -1,14 +1,27 @@
-﻿using UnityEngine;
-
+﻿
 public class MeleeCharacter : CharacterBase
 {
-    [SerializeField] private float attackRange;
-    [SerializeField] private float coolDown;
-    [SerializeField] private float damage;
-    
+
     protected override void InitializeAttackStrategy()
     {
-        attackStrategy = new MeleeAttack(this, attackRange, coolDown, damage);
+        attackStrategy = new MeleeAttack(this, currentWeapon);
     }
 
+    public void OnAttackStarted()
+    {
+        if (currentWeapon is IMeleeWeapon meleeWeapon)
+        {
+            meleeWeapon.OpenCollider();
+        }
+    }
+
+    public void OnAttackEnded()
+    {
+        if (currentWeapon is IMeleeWeapon meleeWeapon)
+        {
+            meleeWeapon.CloseCollider();
+        }
+    }
+    
 }
+

@@ -2,36 +2,27 @@
 
 public class MeleeAttack : IAttackStrategy
 {
-    private readonly CharacterBase owner;
+    private readonly CharacterBase _owner;
 
-    public float AttackRange { get; }
-    public float Cooldown { get; }
-    public float Damage { get; }
+    private readonly IWeapon _weapon;
 
-    private float lastAttackTime;
-    public MeleeAttack(CharacterBase owner, float range, float cooldown, float damage)
+    private float _lastAttackTime;
+    public MeleeAttack(CharacterBase owner, IWeapon weapon)
     {
-        this.owner = owner;
-        
-        AttackRange = range;
-        
-        Cooldown = cooldown;
-        
-        Damage = damage;
+        _owner = owner;
+
+        _weapon = weapon;
     }
 
-    
-
+    //burası karakterin nasıl şekilde saldıracağını tutar
     public void TryAttack(CharacterBase target)
     {
-        if (Time.time - lastAttackTime >= Cooldown)
+        if (Time.time - _lastAttackTime >= _weapon.WeaponData.AttackCd)
         {
-            lastAttackTime = Time.time;
-            owner.animator?.SetTrigger("Attack");
+            _lastAttackTime = Time.time;
             
-            Debug.Log("saldırdı");
-            
-            target.TakeDamage(Damage);
+            _owner.Animator?.SetTrigger("Attack");
         }
     }
+
 }
