@@ -4,4 +4,6 @@
     
     void OnEquip(CharacterBase owner);
     void OnUnequip();
+    void Cast();
+    void SetTarget(CharacterBase target);
 }

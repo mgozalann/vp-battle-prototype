@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class CharacterBase : MonoBehaviour, IDamageable
 {
@@ -102,6 +101,8 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
             {
                 _characterMovement.StopMoving();
                 
+                currentWeapon.SetTarget(targetEnemy);
+                
                 attackStrategy.TryAttack(targetEnemy);
             }
         }
@@ -154,7 +155,7 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    private bool IsSameTeam(CharacterBase other)
+    public bool IsSameTeam(CharacterBase other)
     {
         return other != null && teamId == other.teamId;
     }

@@ -8,11 +8,13 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon //meleeweapon olabilir il
 
     [SerializeField] private Collider _collider;
     
-    private CharacterBase owner;
+    private CharacterBase _owner;
+
+    private CharacterBase _currentTarget;
 
     public void OnEquip(CharacterBase owner)
     {
-        this.owner = owner;
+        this._owner = owner;
         
         gameObject.SetActive(true);
     }
@@ -29,16 +31,17 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon //meleeweapon olabilir il
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == owner.gameObject ) return;
+        if(other.gameObject == _owner.gameObject ) return;
+        
+        if (_currentTarget != null && other.gameObject != _currentTarget.gameObject)
+            return;
         
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            
             damageable.TakeDamage(weaponData.AttackDamage);
-            
-            Debug.Log("hasar vurdu");
-            
-            //burada particle çıkacak.
+
+            // Burada particle efekt çıkartılabilir
+            // Instantiate(hitParticle, transform.position, Quaternion.identity);
         }
     }
 
@@ -46,5 +49,11 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon //meleeweapon olabilir il
     {
         gameObject.SetActive(false);
     }
-    
+
+    public void Cast() { }
+
+    public void SetTarget(CharacterBase target)
+    {
+        _currentTarget = target;
+    }
 }
