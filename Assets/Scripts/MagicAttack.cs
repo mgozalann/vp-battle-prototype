@@ -13,11 +13,14 @@ public class MagicAttack : IAttackStrategy
         _owner = owner;
         
         _weapon = weapon;
+        
+        _lastAttackTime = Time.time - _weapon.WeaponData.AttackCd;
 
     }
 
     public void TryAttack(CharacterBase target)
     {
+        
         if (Time.time - _lastAttackTime >= _weapon.WeaponData.AttackCd)
         {
             _lastAttackTime = Time.time;

@@ -1,63 +1,69 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class CharacterMovement : MonoBehaviour
 {
 
-    [SerializeField] private Rigidbody rb;
     [SerializeField] private Animator animator;
+    
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private NavMeshObstacle obstacle;
     
     [Header("MovementParameters")]
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float rotationSpeed = 700f;
     [SerializeField] private float closeDistanceMultiplier = 5f;
     [SerializeField] private float animationTransitionSpeed = 5f;
-    
-    public void MoveTowards(Vector3 destination,float attackRange)
+
+    private void OnEnable()
     {
-        Vector3 dir = (destination - transform.position).normalized;
+        agent.speed = moveSpeed;
+    }
+
+    public void MoveTowards(Vector3 destination)
+    {
+
+        obstacle.enabled = false;
         
-        dir.y = 0;
-
-        float distance = Vector3.Distance(transform.position, destination);
-
-        float speedFactor;
-
-        if (distance < attackRange * closeDistanceMultiplier)
-        {
-            speedFactor = Mathf.Lerp(1, .5f, Time.deltaTime * animationTransitionSpeed); // 0.5x hız ile 1x hız arası geçiş
-        }
-        else
-        {
-            speedFactor = 1f;
-        }
-
-        float targetSpeed = moveSpeed * speedFactor;
+        agent.enabled = true;
         
-        rb.velocity = Vector3.Lerp(rb.velocity, dir * targetSpeed, Time.deltaTime * animationTransitionSpeed);
-
-        Quaternion toRotation = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
-        animator.SetFloat("Speed", rb.velocity.magnitude);
+        agent.SetDestination(destination);
+        
+        animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
     public void StopMoving()
     {
-        rb.velocity = Vector3.zero;
-                
-        animator.SetFloat("Speed", 0); 
+        if (agent.enabled)
+        {
+            agent.ResetPath();
+            
+            agent.enabled = false;
+            
+            animator.SetFloat("Speed", 0);
+
+            obstacle.enabled = true;
+        }
     }
 
     public void OnDead()
     {
-        rb.useGravity = false;
+        agent.enabled = false;
+        
+        obstacle.enabled = false;
+        
+        obstacle.carving = false;
     }
 
     public void FaceTarget(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
-        direction.y = 0;
+        direction.y = 0f;
+
         if (direction != Vector3.zero)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
     }
 }

@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class CharacterBase : MonoBehaviour, IDamageable
 {
+    
+    public event Action<int,int> OnDamageTaken;
+    
     [Header("Stats")] 
     [SerializeField] private CharacterData characterData;
     [SerializeField] private int teamId = 0;
@@ -18,13 +23,16 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     
     [Header("Starting Weapon")]
     [SerializeField] private WeaponData startingWeapon; // Inspector’dan atanacak
-    public IWeapon currentWeapon;
-    
+
     public Transform weaponHolder;
+
+    public IWeapon CurrentWeapon;
     
-    protected CharacterBase targetEnemy;
-    protected float currentHealth;
-    protected IAttackStrategy attackStrategy;
+    private CharacterBase _targetEnemy;
+    private int _currentHealth;
+    protected IAttackStrategy AttackStrategy;
+    
+
     
     private void Awake()
     {
@@ -33,7 +41,7 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     
     protected virtual void Start()
     {
-        currentHealth = characterData.MaxHealth;
+        _currentHealth = characterData.MaxHealth;
         
         InitializeAttackStrategy();
     }
@@ -55,9 +63,9 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
         
         weaponInstance.transform.localPosition = Vector3.zero;
 
-        currentWeapon = weaponInstance.GetComponent<IWeapon>();
+        CurrentWeapon = weaponInstance.GetComponent<IWeapon>();
         
-        EquipWeapon(currentWeapon);
+        EquipWeapon(CurrentWeapon);
 
     }
     
@@ -65,18 +73,18 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     {
         if (weapon == null) return;
         
-        currentWeapon?.OnUnequip();
+        CurrentWeapon?.OnUnequip();
         
-        currentWeapon = weapon;
+        CurrentWeapon = weapon;
         
-        currentWeapon.OnEquip(this);
+        CurrentWeapon.OnEquip(this);
     }
     
     public void UnequipWeapon()
     {
-        currentWeapon?.OnUnequip();
+        CurrentWeapon?.OnUnequip();
         
-        currentWeapon = null;
+        CurrentWeapon = null;
     }
 
 
@@ -84,26 +92,26 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     {
         if(IsDead) return;
         
-        if (targetEnemy == null || targetEnemy.IsDead)
-            targetEnemy = FindNearestEnemy();
+        if (_targetEnemy == null || _targetEnemy.IsDead)
+            _targetEnemy = FindNearestEnemy();
 
-        if (targetEnemy != null)
+        if (_targetEnemy != null)
         {
-            float distance = Vector3.Distance(transform.position, targetEnemy.transform.position);
+            float distance = Vector3.Distance(transform.position, _targetEnemy.transform.position);
             
-            _characterMovement.FaceTarget(targetEnemy.transform);
+            _characterMovement.FaceTarget(_targetEnemy.transform);
 
-            if (distance > currentWeapon.WeaponData.AttackRange)
+            if (distance > CurrentWeapon.WeaponData.AttackRange)
             {
-                _characterMovement.MoveTowards(targetEnemy.transform.position, currentWeapon.WeaponData.AttackRange);
+                _characterMovement.MoveTowards(_targetEnemy.transform.position);
             }
             else
             {
                 _characterMovement.StopMoving();
                 
-                currentWeapon.SetTarget(targetEnemy);
+                CurrentWeapon.SetTarget(_targetEnemy);
                 
-                attackStrategy.TryAttack(targetEnemy);
+                AttackStrategy.TryAttack(_targetEnemy);
             }
         }
         else
@@ -124,7 +132,7 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
         {
             CharacterBase character = hit.GetComponent<CharacterBase>();
 
-            if (character != null && character != this && character.currentHealth > 0 && !character.IsSameTeam(this))
+            if (character != null && character != this && character._currentHealth > 0 && !character.IsSameTeam(this))
             {
                 float dist = Vector3.Distance(transform.position, character.transform.position);
 
@@ -147,6 +155,10 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
         
         _characterMovement.OnDead();
         
+        int randomDie = Random.Range(0, 2); 
+        
+        animator.SetInteger("DieIndex", randomDie);
+        
         animator.SetTrigger("Die");
     }
 
@@ -160,23 +172,24 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
         return other != null && teamId == other.teamId;
     }
     
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        _currentHealth -= damage;
         
-        Debug.Log(currentHealth);
-
+        OnDamageTaken?.Invoke(_currentHealth,characterData.MaxHealth);
+        
         if (!IsAttacking)
         {
             animator.SetTrigger("Hit");
         }
 
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             Die();
         }
     }
-    
+
+
     public void OnAttackAnimationStarted()
     {
         IsAttacking = true;

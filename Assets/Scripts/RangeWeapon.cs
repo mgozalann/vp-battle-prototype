@@ -2,6 +2,9 @@
 
 public class RangeWeapon : MonoBehaviour, IRangeWeapon
 {
+    
+    //arrow, single target staff
+    
     public WeaponData WeaponData => weaponData;
     
     [SerializeField] private WeaponData weaponData;
@@ -26,11 +29,12 @@ public class RangeWeapon : MonoBehaviour, IRangeWeapon
 
     public void Cast()
     {
-        GameObject go = Instantiate(weaponData.ProjectilePrefab, _spawnPoint.position, Quaternion.identity);
+        GameObject go = ObjectPoolManager.SpawnObject(weaponData.ProjectilePrefab, _spawnPoint.position, Quaternion.identity);
 
-        Projectile proj = go.GetComponent<Projectile>();
-            
-        proj.Initialize(_owner,_currentTarget.transform, weaponData);
+        if (go.TryGetComponent(out IProjectile projectile))
+        {
+            projectile.Initialize(_owner, weaponData, _currentTarget.transform,_spawnPoint);
+        }
     }
 
     public void SetTarget(CharacterBase target)

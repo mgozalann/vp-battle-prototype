@@ -7,9 +7,11 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon //meleeweapon olabilir il
     [SerializeField] private WeaponData weaponData;
 
     [SerializeField] private Collider _collider;
+
+    [SerializeField] private GameObject _hitVfx;
     
     private CharacterBase _owner;
-
+ 
     private CharacterBase _currentTarget;
 
     public void OnEquip(CharacterBase owner)
@@ -39,9 +41,10 @@ public class MeleeWeapon : MonoBehaviour, IMeleeWeapon //meleeweapon olabilir il
         if (other.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage(weaponData.AttackDamage);
+            
+            Vector3 hitPoint = other.ClosestPointOnBounds(transform.position);
 
-            // Burada particle efekt çıkartılabilir
-            // Instantiate(hitParticle, transform.position, Quaternion.identity);
+            ObjectPoolManager.SpawnObject(_hitVfx, hitPoint, Quaternion.identity);
         }
     }
 

@@ -3,12 +3,12 @@
     
     protected override void InitializeAttackStrategy()
     {
-        attackStrategy = new MagicAttack(this, currentWeapon);
+        AttackStrategy = new MagicAttack(this, CurrentWeapon);
     }
     
     public void OnCast()
     {
-        currentWeapon.Cast();
+        CurrentWeapon.Cast();
     }
     
 }

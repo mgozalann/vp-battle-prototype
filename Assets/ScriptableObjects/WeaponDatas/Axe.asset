@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponPrefab: {fileID: 8738925443442166844, guid: 3466590d1cf707942a98987fd7f18826, type: 3}
   AttackRange: 2
-  AttackDamage: 250
+  AttackDamage: 100
   AttackCd: 1.25
   ProjectilePrefab: {fileID: 0}
+  ProjectileType: 0

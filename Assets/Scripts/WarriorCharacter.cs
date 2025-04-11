@@ -4,12 +4,12 @@ public class WarriorCharacter : CharacterBase
 
     protected override void InitializeAttackStrategy()
     {
-        attackStrategy = new MeleeAttack(this, currentWeapon);
+        AttackStrategy = new MeleeAttack(this, CurrentWeapon);
     }
 
     public void OnAttackStarted()
     {
-        if (currentWeapon is IMeleeWeapon meleeWeapon)
+        if (CurrentWeapon is IMeleeWeapon meleeWeapon)
         {
             meleeWeapon.OpenCollider();
         }
@@ -17,7 +17,7 @@ public class WarriorCharacter : CharacterBase
 
     public void OnAttackEnded()
     {
-        if (currentWeapon is IMeleeWeapon meleeWeapon)
+        if (CurrentWeapon is IMeleeWeapon meleeWeapon)
         {
             meleeWeapon.CloseCollider();
         }
