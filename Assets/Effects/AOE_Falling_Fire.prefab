@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8642565582214348175}
   - component: {fileID: 2652269885308722233}
   m_Layer: 0
-  m_Name: AOE_Projectile_Soraka
+  m_Name: AOE_Falling_Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5b95b7f49ff45a89d65793946cc63f0, type: 3}
-  m_Name: AoEStaff
+  m_Name: AoEStaff_Ice
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 7829223823064772173, guid: d42f958e65de5544fb70f4b3983f538f, type: 3}
+  WeaponPrefab: {fileID: 7829223823064772173, guid: d55d3de2a64d0d349aca8643a200997f, type: 3}
   AttackRange: 20
-  AttackDamage: 250
-  AttackCd: 5
-  ProjectilePrefab: {fileID: 8378648546881499446, guid: 867c572a5be680d42a042d2349f10143, type: 3}
-  ProjectileType: 1
+  AttackDamage: 65
+  AttackCd: 3
+  ProjectilePrefab: {fileID: 8378648546881499446, guid: ae199bbc695b87d42b21828d95555c49, type: 3}

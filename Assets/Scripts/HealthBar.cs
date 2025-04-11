@@ -43,7 +43,10 @@ public class HealthBar : MonoBehaviour
     {
         if (_mainCamera != null)
         {
-            transform.rotation = Quaternion.LookRotation(transform.position - _mainCamera.transform.position );
+            // transform.rotation = Quaternion.LookRotation(transform.position - _mainCamera.transform.position );
+            
+            Vector3 cameraForward = _mainCamera.transform.forward;
+            transform.forward = -cameraForward;
         }
     }
 

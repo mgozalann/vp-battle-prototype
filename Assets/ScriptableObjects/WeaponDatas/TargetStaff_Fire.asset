@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5b95b7f49ff45a89d65793946cc63f0, type: 3}
-  m_Name: Axe
+  m_Name: TargetStaff_Fire
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 8738925443442166844, guid: 3466590d1cf707942a98987fd7f18826, type: 3}
-  AttackRange: 2
-  AttackDamage: 90
-  AttackCd: 1
-  ProjectilePrefab: {fileID: 0}
+  WeaponPrefab: {fileID: 7829223823064772173, guid: 5703bd5c987bf7b4c950dae06c7b688d, type: 3}
+  AttackRange: 20
+  AttackDamage: 75
+  AttackCd: 1.5
+  ProjectilePrefab: {fileID: 8101523603401821553, guid: cce64ad32c88b6141869a0c26569c4ba, type: 3}

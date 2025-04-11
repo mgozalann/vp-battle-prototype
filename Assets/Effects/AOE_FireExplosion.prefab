@@ -39218,7 +39218,7 @@ GameObject:
   - component: {fileID: 6020382808768398895}
   - component: {fileID: 6660119393521348645}
   m_Layer: 0
-  m_Name: AOE_Projectile_RedExplosion
+  m_Name: AOE_FireExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

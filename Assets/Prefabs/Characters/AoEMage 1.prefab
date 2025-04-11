@@ -7484,7 +7484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6187505497574540992
 Transform:
   m_ObjectHideFlags: 0
@@ -8941,7 +8941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &150551383220351122
 Transform:
   m_ObjectHideFlags: 0
@@ -14769,7 +14769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7389166743657086872
 Transform:
   m_ObjectHideFlags: 0
@@ -17292,7 +17292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3760984166567974280
 Transform:
   m_ObjectHideFlags: 0
@@ -19228,7 +19228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5351109252680642345, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: m_Name
-      value: AoEMage
+      value: AoEMage 1
       objectReference: {fileID: 0}
     - target: {fileID: 9117496463906876605, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: characterBase
@@ -19472,7 +19472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: f03a43a5ee0df6c4498ea351d9ea3417, type: 2}
-  teamId: 0
+  teamId: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -19481,5 +19481,5 @@ MonoBehaviour:
   animator: {fileID: 682509713227781042}
   _characterMovement: {fileID: 2978245969527280022}
   _collider: {fileID: 3192298287671111996}
-  startingWeapon: {fileID: 11400000, guid: 7ddc7f940dec2a74fac884a0865bb57a, type: 2}
+  startingWeapon: {fileID: 11400000, guid: 090c71e5b0d94514c8333df6d95a4c7f, type: 2}
   weaponHolder: {fileID: 5150863229022809892}

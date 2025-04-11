@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b95b7f49ff45a89d65793946cc63f0, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 8738925443442166844, guid: 7a7cd5f1793dd174b88c00eb766ecd19, type: 3}
+  WeaponPrefab: {fileID: 8738925443442166844, guid: a82c1ba7fe2269949bc172d95bf1621d, type: 3}
   AttackRange: 2
-  AttackDamage: 75
-  AttackCd: 1.5
+  AttackDamage: 100
+  AttackCd: 1.05
   ProjectilePrefab: {fileID: 0}
-  ProjectileType: 0
