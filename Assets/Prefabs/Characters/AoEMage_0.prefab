@@ -19182,6 +19182,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2374653059018084222, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374653059018084222, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
+      propertyPath: m_Color.r
+      value: 0.26879236
+      objectReference: {fileID: 0}
     - target: {fileID: 4574414663754189191, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: m_Controller
       value: 
@@ -19228,7 +19236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5351109252680642345, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: m_Name
-      value: AoEMage
+      value: AoEMage_0
       objectReference: {fileID: 0}
     - target: {fileID: 9117496463906876605, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: characterBase
@@ -19476,6 +19484,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  _deathVfx: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
   IsAttacking: 0
   IsDead: 0
   animator: {fileID: 682509713227781042}

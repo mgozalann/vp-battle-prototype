@@ -19476,6 +19476,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  _deathVfx: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
   IsAttacking: 0
   IsDead: 0
   animator: {fileID: 682509713227781042}

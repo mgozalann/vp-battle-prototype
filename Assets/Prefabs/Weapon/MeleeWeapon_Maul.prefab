@@ -16,6 +16,26 @@ PrefabInstance:
       propertyPath: weaponData
       value: 
       objectReference: {fileID: 11400000, guid: 81a6179de0136934ab9dd6832b89e795, type: 2}
+    - target: {fileID: 2223210613723741035, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
+      propertyPath: m_Size.x
+      value: 0.40783107
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223210613723741035, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
+      propertyPath: m_Size.z
+      value: 0.57068306
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223210613723741035, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
+      propertyPath: m_Center.x
+      value: -0.67065376
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223210613723741035, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
+      propertyPath: m_Center.y
+      value: -0.002727344
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223210613723741035, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
+      propertyPath: m_Center.z
+      value: 0.004546477
+      objectReference: {fileID: 0}
     - target: {fileID: 3271248938488990013, guid: c38a3ec0c6273674696c49178adf27c0, type: 3}
       propertyPath: m_Name
       value: MeleeWeapon_Maul

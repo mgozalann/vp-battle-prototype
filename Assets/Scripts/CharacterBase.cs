@@ -11,6 +11,7 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
     [SerializeField] private CharacterData characterData;
     [SerializeField] private int teamId = 0;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject _deathVfx;
     
     public bool IsAttacking;
     public bool IsDead;
@@ -164,6 +165,8 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
 
     public void DestroyCharacter()
     {
+        ObjectPoolManager.SpawnObject(_deathVfx, transform.position, Quaternion.identity);
+        
         Destroy(gameObject);
     }
 

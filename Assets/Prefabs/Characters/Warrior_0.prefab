@@ -19182,6 +19182,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2374653059018084222, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374653059018084222, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
+      propertyPath: m_Color.r
+      value: 0.27058825
+      objectReference: {fileID: 0}
     - target: {fileID: 4392946525148729599, guid: d27961e17e659ca49b5932663a1cad11, type: 3}
       propertyPath: m_ReferencePixelsPerUnit
       value: 101.38
@@ -19451,6 +19459,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  _deathVfx: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
   IsAttacking: 0
   IsDead: 0
   animator: {fileID: 407982928261067633}
