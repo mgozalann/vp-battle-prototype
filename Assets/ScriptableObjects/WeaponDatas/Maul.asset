@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Maul
   m_EditorClassIdentifier: 
   WeaponPrefab: {fileID: 8738925443442166844, guid: a82c1ba7fe2269949bc172d95bf1621d, type: 3}
-  AttackRange: 2
+  AttackRange: 1.5
   AttackDamage: 110
   AttackCd: 1.1
   ProjectilePrefab: {fileID: 0}

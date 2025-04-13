@@ -165,7 +165,7 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
 
     public void DestroyCharacter()
     {
-        ObjectPoolManager.SpawnObject(_deathVfx, transform.position, Quaternion.identity);
+        ObjectPoolManager.SpawnObject(_deathVfx, transform.position, _deathVfx.transform.rotation);
         
         Destroy(gameObject);
     }
