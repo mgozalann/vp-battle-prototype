@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Warrior
   DetectionRange: 20
-  MaxHealth: 1000
+  MaxHealth: 250

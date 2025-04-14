@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Gameplay-Mage-Warriors 3.unity
+    guid: d5568a7c1c022534b8b404c04d057b31
   m_configObjects: {}

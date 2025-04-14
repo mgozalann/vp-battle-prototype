@@ -19487,6 +19487,7 @@ MonoBehaviour:
   _deathVfx: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
   IsAttacking: 0
   IsDead: 0
+  IsAlly: 1
   animator: {fileID: 682509713227781042}
   _characterMovement: {fileID: 2978245969527280022}
   _collider: {fileID: 3192298287671111996}
