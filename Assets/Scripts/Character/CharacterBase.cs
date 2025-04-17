@@ -93,7 +93,10 @@ public abstract class CharacterBase : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
-        if(GameManager.I.CurrentState != GameState.InBattle) return;
+        if (GameManager.I != null)
+        {
+            if(GameManager.I.CurrentState != GameState.InBattle) return;
+        }
         
         if (IsDead) return;
 
